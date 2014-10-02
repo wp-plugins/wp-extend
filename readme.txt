@@ -4,7 +4,7 @@ Donate link: http://dquinn.net
 Tags: plugin, admin, posts, custom post type, custom taxonomy, custom
 Requires at least: 3.6.1
 Tested up to: 4.0
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -76,5 +76,8 @@ Log all your bugs and feature requests here: https://github.com/alkah3st/wpx/iss
 
 == Changelog ==
 
-= 1.0 =
+= 1.0.1 =
+* Removed extraneous files from beta version.
+
+= 1.0.0 =
 * First stable version.

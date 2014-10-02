@@ -1,0 +1,10 @@
+{
+  "dev": {
+    "username": "YOUR FTP USERNAME",
+    "password": "YOUR FTP PASSWORD"
+  },
+  "live": {
+    "username": "YOUR FTP USERNAME",
+    "password": "YOUR FTP PASSWORD"
+  }
+}

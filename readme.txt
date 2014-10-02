@@ -76,5 +76,8 @@ Log all your bugs and feature requests here: https://github.com/alkah3st/wpx/iss
 
 == Changelog ==
 
-= 1.0 =
+= 1.0.1 =
+* Removed extraneous files from beta version.
+
+= 1.0.0 =
 * First stable version.

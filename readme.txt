@@ -76,6 +76,9 @@ Log all your bugs and feature requests here: https://github.com/alkah3st/wpx/iss
 
 == Changelog ==
 
+= 1.0.2 =
+* Fixed link to local environment in admin.php. Ignored Thumbs.db.
+
 = 1.0.1 =
 * Removed extraneous files from beta version.
 

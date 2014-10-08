@@ -83,7 +83,7 @@ class wpx_admin {
 	*/
 	public function uninstall_field() {
         printf(
-            '<input type="text" class="regular-text" id="wpx_uninstall" name="wpx_admin_options[wpx_uninstall]" value="%s" /><p class="description">It\'s strongly advised you create an <a href="http://local.wpx.com/wp-admin/export.php">XML export</a> of the WPX data before uninstalling.</p>',
+            '<input type="text" class="regular-text" id="wpx_uninstall" name="wpx_admin_options[wpx_uninstall]" value="%s" /><p class="description">It\'s strongly advised you create an <a href="'.get_bloginfo('url').'/wp-admin/export.php">XML export</a> of the WPX data before uninstalling.</p>',
             isset( $this->wpx_admin_options['wpx_uninstall'] ) ? esc_attr( $this->wpx_admin_options['wpx_uninstall']) : ''
         );	
 	}

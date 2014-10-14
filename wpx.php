@@ -3,7 +3,7 @@
  * Plugin Name: WP Extend
  * Plugin URI: http://www.dquinn.net/wp-extend/
  * Description: A developer-centric framework for creating custom post types, taxonomies, metaboxes, options pages and more.
- * Version: 1.0.3
+ * Version: 1.0.4
  * Author: Daniel Quinn
  * Author URI: http://www.dquinn.net
  * License: GPL2
@@ -119,7 +119,8 @@ class wpx_core {
 		$options = get_site_transient('wpx_options');
 		$wpx_transient_array[] = 'wpx_options';
 
-		if (!$options) {
+		// in the case of multisite, don't cache options pages
+		if (!$options || is_multisite()) {
 			$options = get_posts(array('posts_per_page'=>-1, 'post_type'=>'wpx_options', 'orderby'=>'menu_order'));
 			set_site_transient('wpx_options', $options, YEAR_IN_SECONDS);
 		}
@@ -301,7 +302,8 @@ class wpx_core {
 		$taxonomies = get_site_transient('wpx_taxonomies');
 		$wpx_transient_array[] = 'wpx_taxonomies';
 
-		if (!$taxonomies) {
+		// don't register taxonomies if multisite
+		if (!$taxonomies || is_multisite()) {
 			$taxonomies = get_posts(array('posts_per_page'=>-1, 'post_type'=>'wpx_taxonomy'));
 			set_site_transient('wpx_taxonomies', $taxonomies, YEAR_IN_SECONDS);
 		}
@@ -572,7 +574,8 @@ class wpx_core {
 		$post_types = get_site_transient('wpx_cpts');
 		$wpx_transient_array[] = 'wpx_cpts';
 
-		if (!$post_types) {
+		// in the case of multisite, we can't cache the cpts
+		if (!$post_types || is_multisite()) {
 			$post_types = get_posts(array('posts_per_page'=>-1, 'post_type'=>'wpx_types'));
 			set_site_transient('wpx_cpts', $post_types, YEAR_IN_SECONDS);
 		}

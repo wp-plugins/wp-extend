@@ -1,0 +1,203 @@
+/* metaboxes */
+.wpx-input-bubble {
+	display: block !important;
+	margin: 0px auto 10px auto; 
+	background-color: #F9F9F9; 
+	border: 1px solid #DFDFDF; 
+	-moz-border-radius: 5px; 
+	-webkit-border-radius: 5px; 
+	border-radius: 5px;
+	padding: 10px;
+	overflow: hidden;
+}
+
+.wpx-fields .wpx-input-bubble label {
+	margin-bottom: 5px;
+	display: block;
+}
+
+.wpx-fields input.wpx-media {
+	background: url('../../../../../wp-admin/images/media-button.png') no-repeat 7px 7px;
+	padding: 7px;
+	padding-left: 32px;
+	padding-right: 32px;
+}
+
+/* for options pages */
+.wpx-bounds td {
+	padding-top: 0;
+}
+
+/* front end validation */
+.wpx-fields.form-invalid table.mceLayout,
+.wpx-fields.form-invalid textarea { 
+	border: 1px solid #c00 !important;
+}
+
+.wpx-fields .quicktags-toolbar input {
+	width: auto !important;
+}
+
+.wpx-fields .wp-editor-container {
+	background-color: #fff;
+}
+
+.wpx-fields .wpx-dropdown-selector {
+	margin: 15px 0;
+}
+
+.wpx-fields .select {
+	width: 100%;
+}
+
+.wpx-fields .wpx-preview-image {
+	width: 30%;
+	float: left;
+}
+
+.wpx-fields .wpx-preview-image img {
+	width: 100%;
+}
+
+.wpx-fields .wpx-has-image {
+	float: right;
+	width: 68%;
+}
+
+.wpx-fields .wpx-has-image .custom-media {
+	width: 92%;
+}
+
+.wpx-fields .wpx-checkbox-multi {
+	overflow: auto;
+	max-height: 200px;
+	padding: 15px;
+	background-color: #fff;
+	margin-bottom: 10px;
+	border: 1px solid #eee;
+}
+
+/* for taxonomies */
+.wpx-fields td .wpx-checkbox-multi {
+	border: 1px dotted #ccc;
+}
+
+.wpx-fields .wpx-checkbox-multi ul {
+	margin: 0 5px 0 5px;
+}
+
+.wpx-fields .wpx-checkbox-multi li input {
+	width: auto;
+	margin-right: 5px;
+}
+
+.wpx-fields .wpx-form-row {
+	margin: 15px 0;
+	overflow: hidden;
+}
+
+.wpx-fields .wpx-form-row input {
+	float: left;
+	margin-left: 10px;
+	display: block;
+	width: 50%;
+}
+
+.wpx-fields .wpx-form-row span {
+	float: left;
+	display: block;
+}
+
+.wpx-fields .wpx-gallery-container {
+	overflow: hidden;
+	margin: 15px 0;
+	width: 100%;
+}
+
+.wpx-fields .wpx-gallery-container .wpx-gallery-image {
+	width: 20%;
+	overflow: hidden;
+	float: left;
+}
+
+.wpx-fields .wpx-gallery-container .wpx-gallery-image img {
+	max-width: 95%;
+	display: block;
+	margin: 5px auto;
+}
+
+.wpx-fields .wpx-gallery-container .wpx-gallery-image img.selected {
+	opacity: .3;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+	filter: alpha(opacity=30);
+}
+
+/* taxonomy edit/add tag */
+.form-table .taxonomy td .wpx-dropdown-selector {
+	margin-top: 0;
+}
+
+.wpx-fields.checkbox {
+	overflow: hidden;
+	background-color: transparent !important;
+}
+
+.wpx-fields .wpx-rewrite-switch {
+	margin-top: 1px;
+}
+
+.wpx-fields.checkbox label {
+	margin-bottom: 10px;
+}
+
+.wpx-fields.checkbox.add-tags .input.checkbox {
+	margin-left: 3px;
+}
+
+.wpx-fields.checkbox .input.checkbox {
+	width: auto;
+	display: inline-block;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.wpx-fields.checkbox p {
+	margin-top: 0;
+	width: auto;
+	display: inline;
+}
+
+.wpx-fields.checkbox.add-tags p {
+	top: 0;
+}
+
+/* settings panel */
+.toplevel_page_wpx_options_global .wp-menu-image {
+	width: 18px;
+	height: 17px;
+	background-image: url(../../../../../wp-admin/images/menu.png);
+	background-position: -239px -33px;
+}
+
+.toplevel_page_wpx_options_global:hover .wp-menu-image {
+	background-position: -239px -1px;
+}
+
+.wpx-bounds .icon32 {
+	background-position: -492px -5px;
+	background-image: url(../../../../../wp-admin/images/icons32.png);
+}
+
+.wpx-bounds form {
+	margin-top: 40px;
+}
+
+.wpx-bounds h3 {
+	border-bottom: 1px solid #DFDFDF;
+	padding-bottom: 15px;
+
+}
+
+.wpx-bounds table {
+	margin-bottom: 20px;
+}

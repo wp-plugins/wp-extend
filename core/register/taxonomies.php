@@ -123,8 +123,8 @@ class wpx_register_taxonomy {
 				$taxonomy_arguments // any arguments
 			);
 
-			$taxonomy_arguments = isset($taxonomy_arguments['register_metaboxes']) ? $taxonomy_arguments['register_metaboxes'] : false;
-			
+			$taxonomy_arguments = isset($taxonomy_arguments) ? $taxonomy_arguments : false;
+
 			// if we have metaboxes for this taxonomy
 			if ($taxonomy_arguments) {
 

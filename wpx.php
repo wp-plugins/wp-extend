@@ -3,7 +3,7 @@
  * Plugin Name: WP Extend
  * Plugin URI: http://www.dquinn.net/wp-extend/
  * Description: A developer-centric framework for creating custom post types, taxonomies, metaboxes, options pages and more.
- * Version: 1.0.4
+ * Version: 1.0.6
  * Author: Daniel Quinn
  * Author URI: http://www.dquinn.net
  * License: GPL2
@@ -249,7 +249,7 @@ class wpx_core {
 				// build metabox arrays sorted by group
 				if (is_array($groups)) {
 
-					$metaboxes = $this->sortMetaboxesByGroup($groups, $metaboxes, $options_page);
+					$metaboxes = $this->sortMetaboxesByGroup($groups, $metaboxes, $options_page, true);
 					
 					if ($metaboxes) {
 						// add the metaboxes to the args
@@ -796,7 +796,7 @@ class wpx_core {
 	 * 
 	 * @since 1.0
 	*/
-	private function sortMetaboxesByGroup($groups, $metaboxes, $post_type=false) {
+	private function sortMetaboxesByGroup($groups, $metaboxes, $post_type=false, $is_options_page=false) {
 
 		global $wpx_transient_array;
 
@@ -852,9 +852,16 @@ class wpx_core {
 						set_site_transient('_wpx_fields_type_'.$field->ID, $_wpx_fields_type, YEAR_IN_SECONDS);
 					}
 
+					// options pages do not use a preceding underscore
+					if ($is_options_page) {
+						$id = $field->post_name;
+					} else {
+						$id = '_'.$post_type->post_name.'_'.$field->post_name;
+					}
+
 					// setup the metabox array
 					$metaboxes[$i][] = array(
-						'id'=>'_'.$post_type->post_name.'_'.$field->post_name,
+						'id'=>$id,
 						'label'=>$_wpx_fields_label,
 						'description'=>$_wpx_fields_description,
 						'field'=>$_wpx_fields_type,

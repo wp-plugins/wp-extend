@@ -306,7 +306,7 @@ class wpx {
 	public static function get_option_meta($options_page_id, $meta_key) {
 		$meta_array =  get_option( $options_page_id );
 		if (is_array($meta_array)) {
-			$meta = isset($meta_array[$meta_key]) ? $meta_array[$meta_key] : false;
+			$meta = isset($meta_array['_'.$options_page_id.'_'.$meta_key]) ? $meta_array['_'.$options_page_id.'_'.$meta_key] : false;
 			return $meta;
 		} else {
 			return false;

@@ -231,7 +231,6 @@ class wpx_admin {
 		add_menu_page( 'WordPress Extend', 'WP Extend', 'manage_options', 'wpx', array($this,'wpx_admin_page'), 'dashicons-wordpress-alt');
 		
 		// settings page
-		add_options_page('Settings', 'Settings', 'manage_options', 'wpx_admin_page', array( $this, 'wpx_admin_page' ));
 		add_action( 'admin_init', array( $this, 'wpx_admin_page_init' ) );
 
 		// all the cpts

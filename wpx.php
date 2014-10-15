@@ -2,8 +2,8 @@
 /*
  * Plugin Name: WP Extend
  * Plugin URI: http://www.dquinn.net/wp-extend/
- * Description: A developer-centric framework for creating custom post types, taxonomies, metaboxes, options pages and more.
- * Version: 1.0.7
+ * Description: A developer-centric framework for creating custom post types, taxonomies, metaboxes, and options pages in the Dashboard.
+ * Version: 1.0.8
  * Author: Daniel Quinn
  * Author URI: http://www.dquinn.net
  * License: GPL2
@@ -342,47 +342,6 @@ class wpx_core {
 
 				// convert "false" to false and "true" to true
 				if ($attribute == 'true' || $attribute == 'false') $args[str_replace('_wpx_taxonomy_','',$i)] = filter_var($attribute, FILTER_VALIDATE_BOOLEAN);
-
-				// unset the rewrite array
-				unset($args['rewrite']);
-
-				// we need to handle the strings entered for the "rewrite" array
-				if ( $i == '_wpx_taxonomy_rewrite' ) {
-					if ($attribute) {
-						$rewrite_values = explode(',', $attribute);
-						if (isset($rewrite_values[0])) $args['rewrite']['slug'] = $rewrite_values[0];
-						if (isset($rewrite_values[1])) $args['rewrite']['with_front'] = $rewrite_values[1];
-						if (isset($rewrite_values[2])) $args['rewrite']['hierarchical'] = $rewrite_values[2];
-						if (isset($rewrite_values[3])) $args['rewrite']['ep_mask'] = $rewrite_values[3];
-
-						// if disabled is checked, then "rewrite" is false
-						if (isset($rewrite_values[4]) == 1) $args['rewrite'] = false;
-
-					}
-				}
-
-				// and remove the wpx placeholder
-				unset($args['_wpx_taxonomy_rewrite']);
-
-				// unset the capabilities
-				$args['capabilities'] = false;
-
-				// we need to handle the strings entered for the capabilities array
-				if ( $i == '_wpx_taxonomy_capabilities' ) {
-					if ($attribute) {
-						$cap_values = explode(',', $attribute);
-						if (isset($cap_values[0])) $args['capabilities']['manage_terms'] = $cap_values[0];
-						if (isset($cap_values[1])) $args['capabilities']['edit_terms'] = $cap_values[1];
-						if (isset($cap_values[2])) $args['capabilities']['delete_terms'] = $cap_values[2];
-						if (isset($cap_values[3])) $args['capabilities']['assign_terms'] = $cap_values[3];
-					}
-				}
-
-				// if there are no capabilities, unset it
-				if ($args['capabilities'] == false) unset($args['capabilities']);
-
-				// and remove the wpx placeholder
-				unset($args['_wpx_taxonomy_capabilities']);
 
 			}
 

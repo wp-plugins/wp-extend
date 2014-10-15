@@ -40,6 +40,7 @@ class wpx_register_field {
 
 		// class vars
 		$this->meta = isset($post_meta) ? $post_meta : false;
+		$this->object = $post;
 		$this->meta_key_raw = $meta_key;
 		$this->meta_key = $meta_key;
 		$this->label = isset($settings['label']) ? $settings['label'] : false;
@@ -58,6 +59,7 @@ class wpx_register_field {
 		if ($tag) {
 			$t_id = $tag->term_id;
 			$this->term_id = $t_id;
+			$this->object = $tag;
 			$term_meta = get_option( "taxonomy_term_$t_id" );
 			$term_field_value = isset($term_meta[$meta_key]) ? $term_meta[$meta_key] : false;
 			$this->meta = $term_field_value;
@@ -1135,196 +1137,7 @@ class wpx_register_field {
 
  		return strcmp($a->labels->name, $b->labels->name);
 
-	}
-
-	/**
-	 * WPX Capabilities
-	 *
-	 * Allows entering of a string for each of the 14 possible capabilities. (Used only by WPX.)
-	 *
-	 * @since 1.0
-	*/
-	public function wpx_capabilities() {
-		
-		$markup = $this->markup('wpx_capabilities');
-		$meta_array = explode(',',$this->meta);
-		$cap_edit_post = isset($meta_array[0]) ? $meta_array[0] : false;
-		$cap_read_post = isset($meta_array[1]) ? $meta_array[1] : false;
-		$cap_delete_post = isset($meta_array[2]) ? $meta_array[2] : false;
-		$cap_edit_posts = isset($meta_array[3]) ? $meta_array[3] : false;
-		$cap_edit_others_posts = isset($meta_array[4]) ? $meta_array[4] : false;
-		$cap_publish_posts = isset($meta_array[5]) ? $meta_array[5] : false;
-		$cap_read_private_posts = isset($meta_array[6]) ? $meta_array[6] : false;
-		$cap_read = isset($meta_array[7]) ? $meta_array[7] : false;
-		$cap_delete_posts = isset($meta_array[8]) ? $meta_array[8] : false;
-		$cap_delete_private_posts = isset($meta_array[9]) ? $meta_array[9] : false;
-		$cap_delete_published_posts = isset($meta_array[10]) ? $meta_array[10] : false;
-		$cap_delete_others_posts = isset($meta_array[11]) ? $meta_array[11] : false;
-		$cap_edit_private_posts = isset($meta_array[12]) ? $meta_array[12] : false;
-		$cap_edit_published_posts = isset($meta_array[13]) ? $meta_array[13] : false;
-		?>
-
-		<?php echo $markup['before_container']; ?>
-		<?php echo $markup['before_label']; ?>
-		<?php if (!$this->array_key) { ?><label for="<?php echo $this->meta_key; ?>"><?php echo $this->label; ?></label><?php } ?>
-		<?php echo $markup['after_label']; ?>
-		<?php echo $markup['before_input']; ?>
-
-		<?php echo $markup['before_description']; ?><?php echo $this->description; ?><?php echo $markup['after_description']; ?>
-
-		<div class="wpx-form-row"><span class="label">[edit_post]</span><input class="input textfield" type="text" name="<?php echo $this->meta_key; ?>[]" value="<?php echo $cap_edit_post; ?>" /></div>
-		<div class="wpx-form-row"><span class="label">[read_post]</span> <input class="input textfield" type="text" name="<?php echo $this->meta_key; ?>[]" value="<?php echo $cap_read_post; ?>" /></div>
-		<div class="wpx-form-row"><span class="label">[delete_post]</span> <input class="input textfield" type="text" name="<?php echo $this->meta_key; ?>[]" value="<?php echo $cap_delete_post; ?>" /></div>
-		<div class="wpx-form-row"><span class="label">[edit_posts]</span> <input class="input textfield" type="text" name="<?php echo $this->meta_key; ?>[]" value="<?php echo $cap_edit_posts; ?>" /></div>
-		<div class="wpx-form-row"><span class="label">[edit_others_posts]</span> <input class="input textfield" type="text" name="<?php echo $this->meta_key; ?>[]" value="<?php echo $cap_edit_others_posts; ?>" /></div>
-		<div class="wpx-form-row"><span class="label">[publish_posts]</span> <input class="input textfield" type="text" name="<?php echo $this->meta_key; ?>[]" value="<?php echo $cap_publish_posts; ?>" /></div>
-		<div class="wpx-form-row"><span class="label">[read_private_posts]</span> <input class="input textfield" type="text" name="<?php echo $this->meta_key; ?>[]" value="<?php echo $cap_read_private_posts; ?>" /></div>
-
-		<?php echo $markup['after_input']; ?>
-		<?php echo $markup['after_container']; ?>
-		<?php
-	}
-
-	/**
-	 * WPX Taxonomy Capabilities
-	 *
-	 * Allows entering of a string for each of the possible capabilities for taxonomies. (Used only by WPX.)
-	 *
-	 * @since 1.0
-	*/
-	public function wpx_taxonomy_capabilities() {
-		
-		$markup = $this->markup('wpx_taxonomy_capabilities');
-		$meta_array = explode(',',$this->meta);
-		$manage_terms = isset($meta_array[0]) ? $meta_array[0] : false;
-		$edit_terms = isset($meta_array[1]) ? $meta_array[1] : false;
-		$delete_terms = isset($meta_array[2]) ? $meta_array[2] : false;
-		$assign_terms = isset($meta_array[3]) ? $meta_array[3] : false;
-		?>
-		
-		<?php echo $markup['before_container']; ?>
-		<?php echo $markup['before_label']; ?>
-		<?php if (!$this->array_key) { ?><label for="<?php echo $this->meta_key; ?>"><?php echo $this->label; ?></label><?php } ?>
-		<?php echo $markup['after_label']; ?>
-		<?php echo $markup['before_input']; ?>
-
-		<?php echo $markup['before_description']; ?><?php echo $this->description; ?><?php echo $markup['after_description']; ?>
-		<div class="wpx-form-row"><span class="label">[manage_terms]</span><input class="input textfield" type="text" name="<?php echo $this->meta_key; ?>[]" value="<?php echo $manage_terms; ?>" /></div>
-		<div class="wpx-form-row"><span class="label">[edit_terms]</span> <input class="input textfield" type="text" name="<?php echo $this->meta_key; ?>[]" value="<?php echo $edit_terms; ?>" /></div>
-		<div class="wpx-form-row"><span class="label">[delete_terms]</span> <input class="input textfield" type="text" name="<?php echo $this->meta_key; ?>[]" value="<?php echo $delete_terms; ?>" /></div>
-		<div class="wpx-form-row"><span class="label">[assign_terms]</span> <input class="input textfield" type="text" name="<?php echo $this->meta_key; ?>[]" value="<?php echo $assign_terms; ?>" /></div>
-
-		<?php echo $markup['after_input']; ?>
-		<?php echo $markup['after_container']; ?>
-		<?php
-	}
-
-	/**
-	 * WPX Taxonomy Rewrite
-	 *
-	 * The rewrite array for taxonomies.
-	 *
-	 * @since 1.0
-	*/
-	public function wpx_taxonomy_rewrite() {
-
-		$markup = $this->markup('wpx_taxonomy_rewrite');
-		$meta_array = explode(',',$this->meta);
-		$slug = isset($meta_array[0]) ? $meta_array[0] : false;
-		$with_front = isset($meta_array[1]) ? $meta_array[1] : false;
-		$hierarchical = isset($meta_array[2]) ? $meta_array[2] : false;
-		$ep_mask = isset($meta_array[3]) ? $meta_array[3] : false;
-		$disable = isset($meta_array[4]) ? $meta_array[4] : false;
-		?>
-
-		<?php echo $markup['before_container']; ?>
-		<?php echo $markup['before_label']; ?>
-		<?php if (!$this->array_key) { ?><label for="<?php echo $this->meta_key; ?>"><?php echo $this->label; ?></label><?php } ?>
-		<?php echo $markup['after_label']; ?>
-		<?php echo $markup['before_input']; ?>
-
-		<?php echo $markup['before_description']; ?><?php echo $this->description; ?><?php echo $markup['after_description']; ?>
-
-		<div class="wpx-form-row"><span class="label">[slug]</span><input class="input textfield" type="text" name="<?php echo $this->meta_key; ?>[]" value="<?php echo $slug; ?>" /></div>
-		<div class="wpx-form-row">
-			<span class="label">[with_front]</span> 
-			<input type="hidden" value="0" name="<?php echo $this->meta_key; ?>[]">
-			<input <?php checked( '1' ==  $with_front, true); ?> class="checkbox input" style="width: auto; margin-top: 2px;" type="checkbox" name="<?php echo $this->meta_key; ?>[]" value="1" />
-		</div>
-		<div class="wpx-form-row">
-			<span class="label">[hierarchical]</span> 
-			<input type="hidden" value="0" name="<?php echo $this->meta_key; ?>[]">
-			<input <?php checked( '1' ==  $hierarchical, true); ?> class="checkbox input" style="width: auto; margin-top: 2px;" type="checkbox" name="<?php echo $this->meta_key; ?>[]" value="1" />
-		</div>
-		<div class="wpx-form-row"><span class="label">[ep_mask]</span> <input class="input textfield" type="text" name="<?php echo $this->meta_key; ?>[]" value="<?php echo $ep_mask; ?>" /></div>
-		<div class="wpx-form-row">
-			<span class="label">(disable?)</span>
-			<input type="hidden" value="0" name="<?php echo $this->meta_key; ?>[]">
-			<input <?php checked( '1' ==  $disable, true); ?> class="checkbox input" style="width: auto; margin-top: 2px;" type="checkbox" name="<?php echo $this->meta_key; ?>[]" value="1" />
-		</div>
-
-		<?php echo $markup['after_input']; ?>
-		<?php echo $markup['after_container']; ?>
-		<?php
-	}
-
-	/**
-	 * WPX CPT Rewrite
-	 *
-	 * The rewrite array for CPTs. (Only used by WPX.)
-	 *
-	 * @since 1.0
-	*/
-	public function wpx_cpt_rewrite() {
-
-		// extract markup
-		$markup = $this->markup('wpx_cpt_rewrite');
-
-		// extract the meta
-		if ($this->meta) $meta_array = explode(',',$this->meta);
-		$slug = isset($meta_array[0]) ? $meta_array[0] : false;
-		$with_front = isset($meta_array[1]) ? $meta_array[1] : false;
-		$feeds = isset($meta_array[2]) ? $meta_array[2] : false;
-		$pages = isset($meta_array[3]) ? $meta_array[3] : false;
-		$ep_mask = isset($meta_array[4]) ? $meta_array[4] : false;
-		$disable = isset($meta_array[5]) ? $meta_array[5] : false;
-		?>
-
-		<?php echo $markup['before_container']; ?>		
-		<?php echo $markup['before_label']; ?>
-		<?php if (!$this->array_key) { ?><label for="<?php echo $this->meta_key; ?>"><?php echo $this->label; ?></label><?php } ?>		
-		<?php echo $markup['after_label']; ?>
-		<?php echo $markup['before_input']; ?>
-					
-		<?php echo $markup['before_description']; ?><?php echo $this->description; ?><?php echo $markup['after_description']; ?>
-		
-		<div class="wpx-form-row"><span class="label">[slug]</span><input class="input textfield" type="text" name="<?php echo $this->meta_key; ?>[]" value="<?php echo $slug; ?>" /></div>
-		<div class="wpx-form-row">
-			<span class="label">[with_front]</span> 
-			<input type="hidden" value="0" name="<?php echo $this->meta_key; ?>[]">
-			<input <?php checked( '1' ==  $with_front, true); ?> class="checkbox input" style="width: auto; margin-top: 2px;" type="checkbox" name="<?php echo $this->meta_key; ?>[]" value="1" />
-		</div>
-		<div class="wpx-form-row">
-			<span class="label">[feeds]</span> 
-			<input type="hidden" value="0" name="<?php echo $this->meta_key; ?>[]">
-			<input <?php checked( '1' ==  $feeds, true); ?> class="checkbox input" style="width: auto; margin-top: 2px;" type="checkbox" name="<?php echo $this->meta_key; ?>[]" value="1" />
-		</div>
-		<div class="wpx-form-row">
-			<span class="label">[pages]</span>
-			<input type="hidden" value="0" name="<?php echo $this->meta_key; ?>[]">
-			<input <?php checked( '1' ==  $pages, true); ?> class="checkbox input" style="width: auto; margin-top: 2px;" type="checkbox" name="<?php echo $this->meta_key; ?>[]" value="1" />
-		</div>
-		<div class="wpx-form-row"><span class="label">[ep_mask]</span> <input class="input textfield" type="text" name="<?php echo $this->meta_key; ?>[]" value="<?php echo $ep_mask; ?>" /></div>
-		<div class="wpx-form-row">
-			<span class="label">(disable?)</span>
-			<input type="hidden" value="0" name="<?php echo $this->meta_key; ?>[]">
-			<input <?php checked( '1' ==  $disable, true); ?> class="checkbox input" style="width: auto; margin-top: 2px;" type="checkbox" name="<?php echo $this->meta_key; ?>[]" value="1" />
-		</div>
-
-		<?php echo $markup['after_input']; ?>
-		<?php echo $markup['after_container']; ?>
-		<?php
-	}
+ 	}
 
 	/**
 	 * WPX States

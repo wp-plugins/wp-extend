@@ -72,6 +72,70 @@ class wpx_register_type {
 				// but register_meta_box_cb must come from this class
 				if ($this->metaboxes) { $post_type_args['register_meta_box_cb'] = array($this, 'add_post_type_meta'); }
 
+				// fix rewrites
+				$rewrite = isset($post_type_args['rewrite']) ? $post_type_args['rewrite'] : false;
+				$rewrite_slug = isset($post_type_args['rewrite_slug']) ? $post_type_args['rewrite_slug'] : false;
+				$rewrite_pages = isset($post_type_args['rewrite_pages']) ? $post_type_args['rewrite_pages'] : false;
+				$rewrite_feeds = isset($post_type_args['rewrite_feeds']) ? $post_type_args['rewrite_feeds'] : false;
+				$rewrite_with_front = isset($post_type_args['rewrite_with_front']) ? $post_type_args['rewrite_with_front'] : false;
+				$rewrite_ep_mask = isset($post_type_args['rewrite_ep_mask']) ? $post_type_args['rewrite_ep_mask'] : false;
+
+				if ($rewrite) {
+					if ($rewrite) $post_type_args['rewrite'] = true;
+					if ($rewrite_slug || $rewrite_pages || $rewrite_with_front || $rewrite_feeds || $rewrite_ep_mask) {
+						$post_type_args['rewrite'] = array(); 
+					}
+					if ($rewrite_slug) {
+						$post_type_args['rewrite']['slug'] = $rewrite_slug;
+					}
+					if ($rewrite_pages) {
+						$post_type_args['rewrite']['pages'] = $rewrite_pages;
+					}
+					if ($rewrite_feeds) {
+						$post_type_args['rewrite']['feeds'] = $rewrite_feeds;
+					}
+					if ($rewrite_with_front) {
+						$post_type_args['rewrite']['with_front'] = $rewrite_with_front;
+					}
+					if ($rewrite_ep_mask) {
+						$post_type_args['rewrite']['ep_mask'] = $rewrite_ep_mask;
+					}
+				}
+
+				// deal with capabilities
+				$read_post = isset($post_type_args['capabilities_read_post']) ? $post_type_args['capabilities_read_post'] : false;
+				$edit_post = isset($post_type_args['capabilities_edit_post']) ? $post_type_args['capabilities_edit_post'] : false;
+				$delete_post = isset($post_type_args['capabilities_delete_post']) ? $post_type_args['capabilities_delete_post'] : false;
+				$edit_posts = isset($post_type_args['capabilities_edit_posts']) ? $post_type_args['capabilities_edit_posts'] : false;
+				$edit_others_posts = isset($post_type_args['capabilities_edit_others_posts']) ? $post_type_args['capabilities_edit_others_posts'] : false;
+				$publish_posts = isset($post_type_args['capabilities_publish_posts']) ? $post_type_args['capabilities_publish_posts'] : false;
+				$read_private_posts = isset($post_type_args['capabilities_read_private_posts']) ? $post_type_args['capabilities_read_private_posts'] : false;
+
+				if ($read_post || $edit_post || $delete_post || $edit_posts || $edit_others_posts || $publish_posts || $read_private_posts) {
+					$post_type_args['capabilities'] = array(); 
+					if ($read_post) {
+						$post_type_args['capabilities']['read_post'] = $read_post;
+					}
+					if ($edit_post) {
+						$post_type_args['capabilities']['edit_post'] = $edit_post;
+					}
+					if ($delete_post) {
+						$post_type_args['capabilities']['delete_post'] = $delete_post;
+					}
+					if ($edit_posts) {
+						$post_type_args['capabilities']['edit_posts'] = $edit_posts;
+					}
+					if ($edit_others_posts) {
+						$post_type_args['capabilities']['edit_others_posts'] = $edit_others_posts;
+					}
+					if ($publish_posts) {
+						$post_type_args['capabilities']['publish_posts'] = $publish_posts;
+					}
+					if ($read_private_posts) {
+						$post_type_args['capabilities']['read_private_posts'] = $read_private_posts;
+					}
+				}
+
 				$filter_post_type_args = $post_type_args;
 
 				// acceptable parameters for register post type

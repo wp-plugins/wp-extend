@@ -182,13 +182,24 @@ class wpx_cpts {
 			'Capabilities' => array(
 				array( 'collapsed' => true, 'order'=>10),
 				array( 'id'=>'_wpx_cpt_capability_type', 'label'=>'Capability Type', 'description'=>'The string to use to build the read, edit, and delete capabilities. May be passed as an array to allow for alternative plurals when using this argument as a base to construct the capabilities, e.g. array(\'story\', \'stories\'). To pass an array, enter each array key separated by a comma. By default the capability_type is used as a base to construct capabilities. It seems that "map_meta_cap" needs to be set to true, to make this work.', 'field'=>'text', 'required'=>false),
-				array( 'id'=>'_wpx_cpt_capabilities', 'label'=>'Capabilities', 'description'=>'An array of the capabilities for this post type.', 'field'=>'wpx_capabilities', 'required'=>false),
+				array( 'id'=>'_wpx_cpt_capabilities_edit_post', 'label'=>'Capabilities [edit_post]', 'description'=>'An array of the capabilities for this post type.', 'field'=>'wpx_text', 'required'=>false),
+				array( 'id'=>'_wpx_cpt_capabilities_read_post', 'label'=>'Capabilities [read_post]', 'description'=>'An array of the capabilities for this post type.', 'field'=>'wpx_text', 'required'=>false),
+				array( 'id'=>'_wpx_cpt_capabilities_delete_post', 'label'=>'Capabilities [delete_post]', 'description'=>'An array of the capabilities for this post type.', 'field'=>'wpx_text', 'required'=>false),
+				array( 'id'=>'_wpx_cpt_capabilities_edit_posts', 'label'=>'Capabilities [edit_posts]', 'description'=>'An array of the capabilities for this post type.', 'field'=>'wpx_text', 'required'=>false),
+				array( 'id'=>'_wpx_cpt_capabilities_edit_others_posts', 'label'=>'Capabilities [edit_others_posts]', 'description'=>'An array of the capabilities for this post type.', 'field'=>'wpx_text', 'required'=>false),
+				array( 'id'=>'_wpx_cpt_capabilities_publish_posts', 'label'=>'Capabilities [publish_posts]', 'description'=>'An array of the capabilities for this post type.', 'field'=>'wpx_text', 'required'=>false),
+				array( 'id'=>'_wpx_cpt_capabilities_read_private_posts', 'label'=>'Capabilities [read_private_posts]', 'description'=>'An array of the capabilities for this post type.', 'field'=>'wpx_text', 'required'=>false),
 				array( 'id'=>'_wpx_cpt_map_meta_cap', 'label'=>'Meta Capability Mapping', 'description'=>'Whether to use the internal default meta capability handling.', 'field'=>'wpx_states', 'required'=>false)
 			),
 			'Permalink Settings' => array(
 				array( 'collapsed' => true, 'order'=>00),
+				array( 'id'=>'_wpx_cpt_rewrite', 'label'=>'Rewrite', 'description'=>'Triggers the handling of rewrites for this post type. To prevent rewrites, set to false. Defaults to "true" and uses $post_type as slug.', 'field'=>'wpx_states', 'required'=>false),
+				array( 'id'=>'_wpx_cpt_rewrite_slug', 'label'=>'Permalink Slug', 'description'=>'Customize the permalink structure slug. Defaults to the $post_type value.', 'field'=>'wpx_text', 'required'=>false),
+				array( 'id'=>'_wpx_cpt_rewrite_with_front', 'label'=>'Append Front Base?', 'description'=>'Should the permalink structure be prepended with the front base. (example: if your permalink structure is /blog/, then your links will be: false->/news/, true->/blog/news/). Defaults to true.', 'field'=>'wpx_states', 'required'=>false, 'value'=>"true"),
+				array( 'id'=>'_wpx_cpt_rewrite_feeds', 'label'=>'Feeds', 'description'=>'Should a feed permalink structure be built for this post type. Defaults to has_archive value.', 'field'=>'wpx_states', 'required'=>false, 'value'=>false),
+				array( 'id'=>'_wpx_cpt_rewrite_pages', 'label'=>'Pagination', 'description'=>'Should the permalink structure provide for pagination. Defaults to true', 'field'=>'wpx_states', 'required'=>false),
+				array( 'id'=>'_wpx_cpt_rewrite_ep_mask', 'label'=>'Rewrite EP Mask', 'description'=>'Assign an endpoint mask for this taxonomy; defaults to EP_NONE. For more info see this Make WordPress Plugins summary of endpoints.', 'field'=>'wpx_text', 'required'=>false),
 				array( 'id'=>'_wpx_cpt_permalink_epmask', 'label'=>'Permalink EP Mask', 'description'=>'The default rewrite endpoint bitmasks. For more info see Trac Ticket 12605 and this Make WordPress Plugins summary of endpoints. In 3.4, this argument is effectively replaced by the "ep_mask" argument under rewrite.', 'field'=>'text', 'required'=>false),
-				array( 'id'=>'_wpx_cpt_rewrite', 'label'=>'Rewrite', 'description'=>'Triggers the handling of rewrites for this post type. To prevent rewrites, set to false. Defaults to "true" and uses $post_type as slug.', 'field'=>'wpx_cpt_rewrite', 'required'=>false),
 				array( 'id'=>'_wpx_cpt_can_export', 'label'=>'Can Export', 'description'=>'Can this post_type be exported?', 'field'=>'wpx_states', 'required'=>false)
 			)
 		);
@@ -335,12 +346,19 @@ class wpx_cpts {
 			),
 			'Capabilities' => array(
 				array( 'collapsed' => true, 'order'=>10),
-				array( 'id'=>'_wpx_taxonomy_capabilities', 'label'=>'Capabilities', 'description'=>'An array of the capabilities for this taxonomy.', 'field'=>'wpx_taxonomy_capabilities', 'required'=>false),
+				array( 'id'=>'_wpx_taxonomy_capabilities_manage_terms', 'label'=>'Capabilities [manage_terms]', 'description'=>'An array of the capabilities for this taxonomy.', 'field'=>'wpx_text', 'required'=>false),
+				array( 'id'=>'_wpx_taxonomy_capabilities_edit_terms', 'label'=>'Capabilities [edit_terms]', 'description'=>'An array of the capabilities for this taxonomy.', 'field'=>'wpx_text', 'required'=>false),
+				array( 'id'=>'_wpx_taxonomy_capabilities_delete_terms', 'label'=>'Capabilities [delete_terms]', 'description'=>'An array of the capabilities for this taxonomy.', 'field'=>'wpx_text', 'required'=>false),
+				array( 'id'=>'_wpx_taxonomy_capabilities_assign_terms', 'label'=>'Capabilities [assign_terms]', 'description'=>'An array of the capabilities for this taxonomy.', 'field'=>'wpx_text', 'required'=>false),
 				array( 'id'=>'_wpx_taxonomy_sort', 'label'=>'Sort', 'description'=>'Whether this taxonomy should remember the order in which terms are added to objects.', 'field'=>'checkbox', 'required'=>false)
 			),
 			'Permalink Settings' => array(
 				array( 'collapsed' => true, 'order'=>0),
-				array( 'id'=>'_wpx_taxonomy_rewrite', 'label'=>'Rewrite', 'description'=>'Set to false to prevent automatic URL rewriting a.k.a. "pretty permalinks". Pass an $args array to override default URL settings for permalinks.', 'field'=>'wpx_taxonomy_rewrite', 'required'=>false),
+				array( 'id'=>'_wpx_taxonomy_rewrite', 'label'=>'Rewrite', 'description'=>'Set to false to prevent automatic URL rewriting a.k.a. "pretty permalinks".', 'field'=>'wpx_states', 'required'=>false),
+				array( 'id'=>'_wpx_taxonomy_rewrite_slug', 'label'=>'Permalink Slug', 'description'=>'Used as pretty permalink text (i.e. /tag/); defaults to $taxonomy (taxonomy\'s name slug).', 'field'=>'wpx_text', 'required'=>false),
+				array( 'id'=>'_wpx_taxonomy_rewrite_with_front', 'label'=>'Append Front Base?', 'description'=>'Allows permalinks to be prepended with front base; defaults to true.', 'field'=>'wpx_states', 'required'=>false, 'value'=>"true"),
+				array( 'id'=>'_wpx_taxonomy_rewrite_hierarchical', 'label'=>'Hierarchical', 'description'=>'True or false allow hierarchical urls (implemented in Version 3.1); defaults to false.', 'field'=>'wpx_states', 'required'=>false, 'value'=>false),
+				array( 'id'=>'_wpx_taxonomy_rewrite_ep_mask', 'label'=>'Rewrite EP Mask', 'description'=>' Assign an endpoint mask for this taxonomy; defaults to EP_NONE. For more info see this Make WordPress Plugins summary of endpoints.', 'field'=>'wpx_text', 'required'=>false),
 				array( 'id'=>'_wpx_taxonomy_query_var', 'label'=>'Query Var', 'description'=>'False to disable the query_var, set as string to use custom query_var instead of default which is $taxonomy, the taxonomy\'s "name." Note that leaving this blank will set the default as determined by WordPress.', 'field'=>'wpx_text', 'required'=>false)
 			)
 		);

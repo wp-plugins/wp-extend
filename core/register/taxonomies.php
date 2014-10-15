@@ -89,6 +89,55 @@ class wpx_register_taxonomy {
 
 		} else if ($this->id && $this->object_type) {
 
+			// construct the rewrite array
+			$rewrite = isset($taxonomy_arguments['rewrite']) ? $taxonomy_arguments['rewrite'] : false;
+			$rewrite_slug = isset($taxonomy_arguments['rewrite_slug']) ? $taxonomy_arguments['rewrite_slug'] : false;
+			$rewrite_hierarchical = isset($taxonomy_arguments['rewrite_hierarchical']) ? $taxonomy_arguments['rewrite_hierarchical'] : false;
+			$rewrite_with_front = isset($taxonomy_arguments['rewrite_with_front']) ? $taxonomy_arguments['rewrite_with_front'] : false;
+			$rewrite_ep_mask = isset($taxonomy_arguments['rewrite_ep_mask']) ? $taxonomy_arguments['rewrite_ep_mask'] : false;
+
+			if ($rewrite) {
+				if ($rewrite) $taxonomy_arguments['rewrite'] = true;
+				if ($rewrite_slug || $rewrite_hierarchical || $rewrite_with_front || $rewrite_ep_mask) {
+					$taxonomy_arguments['rewrite'] = array(); 
+				}
+				if ($rewrite_slug) {
+					$taxonomy_arguments['rewrite']['slug'] = $rewrite_slug;
+				}
+				if ($rewrite_hierarchical) {
+					$taxonomy_arguments['rewrite']['hierarchical'] = $rewrite_hierarchical;
+				}
+				if ($rewrite_with_front) {
+					$taxonomy_arguments['rewrite']['with_front'] = $rewrite_with_front;
+				}
+				if ($rewrite_ep_mask) {
+					$taxonomy_arguments['rewrite']['ep_mask'] = $rewrite_ep_mask;
+				}
+			}
+
+			// construct the capabilities array
+			$manage_terms = isset($taxonomy_arguments['capabilities_manage_terms']) ? $taxonomy_arguments['capabilities_manage_terms'] : false;
+			$edit_terms = isset($taxonomy_arguments['capabilities_edit_terms']) ? $taxonomy_arguments['capabilities_edit_terms'] : false;
+			$delete_terms = isset($taxonomy_arguments['capabilities_delete_terms']) ? $taxonomy_arguments['capabilities_delete_terms'] : false;
+			$assign_terms = isset($taxonomy_arguments['capabilities_assign_terms']) ? $taxonomy_arguments['capabilities_assign_terms'] : false;
+
+			if ($manage_terms || $edit_terms || $delete_terms || $assign_terms) {
+				$taxonomy_arguments['capabilities'] = array(); 
+				if ($manage_terms) {
+					$taxonomy_arguments['capabilities']['manage_terms'] = $manage_terms;
+				}
+				if ($manage_terms) {
+					$taxonomy_arguments['capabilities']['edit_terms'] = $edit_terms;
+				}
+				if ($delete_terms) {
+					$taxonomy_arguments['capabilities']['delete_terms'] = $delete_terms;
+				}
+				if ($assign_terms) {
+					$taxonomy_arguments['capabilities']['assign_terms'] = $assign_terms;
+				}
+			}
+
+			// load up the original args
 			$filter_taxonomy_args = $taxonomy_arguments;
 
 			// acceptable parameters for register_taxonomy
@@ -115,6 +164,8 @@ class wpx_register_taxonomy {
 					unset($taxonomy_arguments[$i]);
 				}
 			}
+
+			//print_r($taxonomy_arguments);
 
 			// register the taxonomy to this post type
 			register_taxonomy(

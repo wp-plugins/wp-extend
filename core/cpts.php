@@ -167,7 +167,7 @@ class wpx_cpts {
 				array( 'collapsed' => true, 'order'=>20),
 				array( 'id'=>'_wpx_cpt_show_ui', 'label'=>'Show UI', 'description'=>'Whether to generate a default UI for managing this post type in the admin.', 'field'=>'wpx_states', 'required'=>false),
 				array( 'id'=>'_wpx_cpt_show_in_nav_menus', 'label'=>'Show in Nav Menus', 'description'=>'Whether post_type is available for selection in navigation menus.', 'field'=>'wpx_states', 'required'=>false),
-				array( 'id'=>'_wpx_cpt_show_in_menu', 'label'=>'Show in Menu', 'description'=>'Whether post_type is available for selection in navigation menus. If you enter an existing top level page such as \'tools.php\' or \'edit.php?post_type=page\', the post type will be placed as a sub menu of that. Enter "false" to hide from admin menus. Remember that even if this field is blank, register_post_type() has a default value of "true".', 'field'=>'wpx_text', 'required'=>false, 'value'=>"true"),
+				array( 'id'=>'_wpx_cpt_show_in_menu', 'label'=>'Show in Menu', 'description'=>'Where to show the post type in the admin menu. Remember that show_ui must be true. If an existing top level page such as \'tools.php\' or \'edit.php?post_type=page\', the post type will be placed as a sub menu of that. When using \'some string\' to show as a submenu of a menu page created by a plugin, this item will become the first submenu item, and replace the location of the top level link. If this isn\'t desired, the plugin that creates the menu page needs to set the add_action priority for admin_menu to 9 or lower.', 'field'=>'wpx_text', 'required'=>false, 'value'=>"true"),
 				array( 'id'=>'_wpx_cpt_show_in_admin_bar', 'label'=>'Show in Admin Bar', 'description'=>'Whether to make this post type available in the WordPress admin bar.', 'field'=>'wpx_states', 'required'=>false),
 				array( 'id'=>'_wpx_cpt_menu_position', 'label'=>'Menu Position', 'description'=>'The position in the menu order the post type should appear. You can use decimals here for more distance. The parameter "show_in_menu" must be true.', 'field'=>'number', 'required'=>false),
 				array( 'id'=>'_wpx_cpt_menu_icon', 'label'=>'Menu Icon', 'description'=>'The url to the icon to be used for this menu. Examples: \'dashicons-video-alt\' or the full path to an icon. (For this field you cannot enter PHP using WPX.)', 'field'=>'text', 'required'=>false)
@@ -340,7 +340,8 @@ class wpx_cpts {
 			),
 			'Permalink Settings' => array(
 				array( 'collapsed' => true, 'order'=>0),
-				array( 'id'=>'_wpx_taxonomy_rewrite', 'label'=>'Rewrite', 'description'=>'Set to false to prevent automatic URL rewriting a.k.a. "pretty permalinks". Pass an $args array to override default URL settings for permalinks.', 'field'=>'wpx_taxonomy_rewrite', 'required'=>false)
+				array( 'id'=>'_wpx_taxonomy_rewrite', 'label'=>'Rewrite', 'description'=>'Set to false to prevent automatic URL rewriting a.k.a. "pretty permalinks". Pass an $args array to override default URL settings for permalinks.', 'field'=>'wpx_taxonomy_rewrite', 'required'=>false),
+				array( 'id'=>'_wpx_taxonomy_query_var', 'label'=>'Query Var', 'description'=>'False to disable the query_var, set as string to use custom query_var instead of default which is $taxonomy, the taxonomy\'s "name." Note that leaving this blank will set the default as determined by WordPress.', 'field'=>'wpx_text', 'required'=>false)
 			)
 		);
 

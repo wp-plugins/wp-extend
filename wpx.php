@@ -3,7 +3,7 @@
  * Plugin Name: WP Extend
  * Plugin URI: http://www.dquinn.net/wp-extend/
  * Description: A developer-centric framework for creating custom post types, taxonomies, metaboxes, and options pages in the Dashboard.
- * Version: 1.0.9
+ * Version: 1.1.0
  * Author: Daniel Quinn
  * Author URI: http://www.dquinn.net
  * License: GPL2
@@ -637,52 +637,11 @@ class wpx_core {
 				unset($args['not_found_in_trash']);
 				unset($args['parent_item_colon']);
 
-				// handle capabilities
-				$rename_capabilities = false;
-				$args_capabilities = isset($args['capabilities']) ? $args['capabilities'] : false;
-				if ( is_array($args_capabilities) ) {
-					foreach($args_capabilities as $i=>$capability) {
-						if ($i == 0 && $capability) $rename_capabilities['edit_post'] = $capability;
-						if ($i == 1 && $capability) $rename_capabilities['read_post'] = $capability;
-						if ($i == 2 && $capability) $rename_capabilities['delete_post '] = $capability;
-						if ($i == 3 && $capability) $rename_capabilities['edit_posts'] = $capability;
-						if ($i == 4 && $capability) $rename_capabilities['edit_others_posts'] = $capability;
-						if ($i == 5 && $capability) $rename_capabilities['publish_posts'] = $capability;
-						if ($i == 6 && $capability) $rename_capabilities['read_private_posts'] = $capability;
-					}
-					$args['capabilities'] = $rename_capabilities;
-				}
-
-				if (!$args_capabilities) unset($args['capabilities']);
-
 				// cast menu_position as a number (necessary, otherwise it gets ignored by register_post_type())
 				$args_menu_position = isset($args['menu_position']) ? $args['menu_position'] : false;
 				if ($args_menu_position) {
 					$args['menu_position'] = (int)$args['menu_position'];
 				}
-
-				// unset the rewrite array
-				unset($args['rewrite']);
-
-				// we need to handle the strings entered for the rewrite array
-				if ( $i == '_wpx_cpt_rewrite' ) {
-					if ($attribute) {
-						$rewrite_values = explode(',', $attribute);
-						if (isset($rewrite_values[0])) $args['rewrite']['slug'] = $rewrite_values[0];
-						if (isset($rewrite_values[1])) $args['rewrite']['with_front'] = $rewrite_values[1];
-						if (isset($rewrite_values[2])) $args['rewrite']['feeds'] = $rewrite_values[2];
-						if (isset($rewrite_values[3])) $args['rewrite']['pages'] = $rewrite_values[3];
-						if (isset($rewrite_values[4])) $args['rewrite']['ep_mask'] = $rewrite_values[4];
-
-						// if disabled is checked, set rewrite to false
-						if (isset($rewrite_values[5]) == 1) {
-							$args['rewrite'] = false;
-						}
-					}
-				}
-
-				// and remove the wpx placeholder
-				unset($args['_wpx_cpt_rewrite']);
 
 			}
 

@@ -89,30 +89,27 @@ class wpx_register_taxonomy {
 
 		} else if ($this->id && $this->object_type) {
 
-			// construct the rewrite array
+			// fix rewrites
 			$rewrite = isset($taxonomy_arguments['rewrite']) ? $taxonomy_arguments['rewrite'] : false;
-			$rewrite_slug = isset($taxonomy_arguments['rewrite_slug']) ? $taxonomy_arguments['rewrite_slug'] : false;
-			$rewrite_hierarchical = isset($taxonomy_arguments['rewrite_hierarchical']) ? $taxonomy_arguments['rewrite_hierarchical'] : false;
-			$rewrite_with_front = isset($taxonomy_arguments['rewrite_with_front']) ? $taxonomy_arguments['rewrite_with_front'] : false;
-			$rewrite_ep_mask = isset($taxonomy_arguments['rewrite_ep_mask']) ? $taxonomy_arguments['rewrite_ep_mask'] : false;
 
-			if (isset($rewrite)) {
-				$taxonomy_arguments['rewrite'] = true;
-				if (isset($rewrite_slug) || isset($rewrite_hierarchical) || $isset($rewrite_with_front) || isset($rewrite_ep_mask)) {
-					$taxonomy_arguments['rewrite'] = array(); 
-				}
-				if (isset($rewrite_slug)) {
-					$taxonomy_arguments['rewrite']['slug'] = $rewrite_slug;
-				}
-				if (isset($rewrite_hierarchical)) {
-					$taxonomy_arguments['rewrite']['hierarchical'] = $rewrite_hierarchical;
-				}
-				if (isset($rewrite_with_front)) {
-					$taxonomy_arguments['rewrite']['with_front'] = $rewrite_with_front;
-				}
-				if (isset($rewrite_ep_mask)) {
-					$taxonomy_arguments['rewrite']['ep_mask'] = $rewrite_ep_mask;
-				}
+			if ($rewrite) $taxonomy_arguments['rewrite'] = $rewrite;
+
+			if ($rewrite || isset($taxonomy_arguments['rewrite_slug']) || isset($taxonomy_arguments['hierarchical']) || isset($taxonomy_arguments['with_front']) || isset($taxonomy_arguments['ep_mask'])) {
+
+				$taxonomy_arguments['rewrite'] = array();				
+				
+				if (isset($taxonomy_arguments['rewrite_slug']) && $taxonomy_arguments['rewrite_slug'] !== NULL) $taxonomy_arguments['rewrite']['slug'] = $taxonomy_arguments['rewrite_slug'];
+				if ($taxonomy_arguments['rewrite_slug'] == false && $taxonomy_arguments['rewrite_slug'] !== NULL) $taxonomy_arguments['rewrite']['slug'] = false;
+
+				if (isset($taxonomy_arguments['rewrite_hierarchical']) && $taxonomy_arguments['rewrite_hierarchical'] !== NULL) $taxonomy_arguments['rewrite']['hierarchical'] = $taxonomy_arguments['rewrite_hierarchical'];
+				if ($taxonomy_arguments['rewrite_hierarchical'] == false && $taxonomy_arguments['rewrite_hierarchical'] !== NULL) $taxonomy_arguments['rewrite']['hierarchical'] = false;
+
+				if (isset($taxonomy_arguments['rewrite_with_front']) && $taxonomy_arguments['rewrite_with_front'] !== NULL) $taxonomy_arguments['rewrite']['with_front'] = $taxonomy_arguments['rewrite_with_front'];
+				if ($taxonomy_arguments['rewrite_with_front'] == false && $taxonomy_arguments['rewrite_with_front'] !== NULL) $taxonomy_arguments['rewrite']['with_front'] = false;
+
+				if (isset($taxonomy_arguments['rewrite_ep_mask']) && $taxonomy_arguments['rewrite_ep_mask'] !== NULL) $taxonomy_arguments['rewrite']['ep_mask'] = $taxonomy_arguments['rewrite_ep_mask'];
+				if ($taxonomy_arguments['rewrite_ep_mask'] == false && $taxonomy_arguments['rewrite_ep_mask'] !== NULL) $taxonomy_arguments['rewrite']['ep_mask'] = false;
+
 			}
 
 			// construct the capabilities array
@@ -164,8 +161,6 @@ class wpx_register_taxonomy {
 					unset($taxonomy_arguments[$i]);
 				}
 			}
-
-			//print_r($taxonomy_arguments);
 
 			// register the taxonomy to this post type
 			register_taxonomy(

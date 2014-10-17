@@ -3,7 +3,7 @@
  * Plugin Name: WP Extend
  * Plugin URI: http://www.dquinn.net/wp-extend/
  * Description: A developer-centric framework for creating custom post types, taxonomies, metaboxes, and options pages in the Dashboard.
- * Version: 1.0.8
+ * Version: 1.0.9
  * Author: Daniel Quinn
  * Author URI: http://www.dquinn.net
  * License: GPL2

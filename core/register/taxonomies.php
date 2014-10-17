@@ -96,21 +96,21 @@ class wpx_register_taxonomy {
 			$rewrite_with_front = isset($taxonomy_arguments['rewrite_with_front']) ? $taxonomy_arguments['rewrite_with_front'] : false;
 			$rewrite_ep_mask = isset($taxonomy_arguments['rewrite_ep_mask']) ? $taxonomy_arguments['rewrite_ep_mask'] : false;
 
-			if ($rewrite) {
-				if ($rewrite) $taxonomy_arguments['rewrite'] = true;
-				if ($rewrite_slug || $rewrite_hierarchical || $rewrite_with_front || $rewrite_ep_mask) {
+			if (isset($rewrite)) {
+				$taxonomy_arguments['rewrite'] = true;
+				if (isset($rewrite_slug) || isset($rewrite_hierarchical) || $isset($rewrite_with_front) || isset($rewrite_ep_mask)) {
 					$taxonomy_arguments['rewrite'] = array(); 
 				}
-				if ($rewrite_slug) {
+				if (isset($rewrite_slug)) {
 					$taxonomy_arguments['rewrite']['slug'] = $rewrite_slug;
 				}
-				if ($rewrite_hierarchical) {
+				if (isset($rewrite_hierarchical)) {
 					$taxonomy_arguments['rewrite']['hierarchical'] = $rewrite_hierarchical;
 				}
-				if ($rewrite_with_front) {
+				if (isset($rewrite_with_front)) {
 					$taxonomy_arguments['rewrite']['with_front'] = $rewrite_with_front;
 				}
-				if ($rewrite_ep_mask) {
+				if (isset($rewrite_ep_mask)) {
 					$taxonomy_arguments['rewrite']['ep_mask'] = $rewrite_ep_mask;
 				}
 			}

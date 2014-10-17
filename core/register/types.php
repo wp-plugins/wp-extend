@@ -80,27 +80,31 @@ class wpx_register_type {
 				$rewrite_with_front = isset($post_type_args['rewrite_with_front']) ? $post_type_args['rewrite_with_front'] : false;
 				$rewrite_ep_mask = isset($post_type_args['rewrite_ep_mask']) ? $post_type_args['rewrite_ep_mask'] : false;
 
-				if ($rewrite) {
-					if ($rewrite) $post_type_args['rewrite'] = true;
-					if ($rewrite_slug || $rewrite_pages || $rewrite_with_front || $rewrite_feeds || $rewrite_ep_mask) {
+
+				//echo $rewrite_slug;
+				if (isset($rewrite)) {
+					$post_type_args['rewrite'] = true;
+					if (isset($rewrite_slug) || isset($rewrite_pages) || isset($rewrite_with_front) || isset($rewrite_feeds) || isset($rewrite_ep_mask)) {
 						$post_type_args['rewrite'] = array(); 
 					}
-					if ($rewrite_slug) {
+					if (isset($rewrite_slug)) {
 						$post_type_args['rewrite']['slug'] = $rewrite_slug;
 					}
-					if ($rewrite_pages) {
+					if (isset($rewrite_pages)) {
 						$post_type_args['rewrite']['pages'] = $rewrite_pages;
 					}
-					if ($rewrite_feeds) {
+					if (isset($rewrite_feeds)) {
 						$post_type_args['rewrite']['feeds'] = $rewrite_feeds;
 					}
-					if ($rewrite_with_front) {
+					if (isset($rewrite_with_front)) {
 						$post_type_args['rewrite']['with_front'] = $rewrite_with_front;
 					}
-					if ($rewrite_ep_mask) {
+					if (isset($rewrite_ep_mask)) {
 						$post_type_args['rewrite']['ep_mask'] = $rewrite_ep_mask;
 					}
 				}
+
+				//print_r($post_type_args);
 
 				// deal with capabilities
 				$read_post = isset($post_type_args['capabilities_read_post']) ? $post_type_args['capabilities_read_post'] : false;

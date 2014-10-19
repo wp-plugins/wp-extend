@@ -94,6 +94,7 @@ class wpx_cpts {
 			array(
 				'label_singular' => 'Meta Field',
 				'label_plural' => 'Meta Fields',
+				'exclude_from_search'=> true,
 				'hierarchical' => true,
 				'supports' => array('title','page-attributes'),
 				'register_taxonomies' => array($groups),

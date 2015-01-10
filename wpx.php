@@ -3,7 +3,7 @@
  * Plugin Name: WP Extend
  * Plugin URI: http://www.dquinn.net/wp-extend/
  * Description: A developer-centric framework for creating custom post types, taxonomies, metaboxes, and options pages in the Dashboard.
- * Version: 1.1.1
+ * Version: 1.1.2
  * Author: Daniel Quinn
  * Author URI: http://www.dquinn.net
  * License: GPL2
@@ -87,21 +87,66 @@ class wpx_core {
 		// wpx admin options
 		$this->wpx_admin_options = '';
 
+		// runs
+		global $wpx_runs;
+		$wpx_runs = array();
+
 		// transient array allows us to keep track of transients
 		// so that we can delete them all later
 		global $wpx_transient_array;
 		$transient_array = array();
 
 		// loop thru and register all custom cpts
-		add_action( 'init', array($this,'register_custom_cpts') );
-		add_action( 'init', array($this,'register_custom_options_pages') );
-		add_action( 'init', array($this,'register_custom_taxonomies') );
+		add_action( 'init', array($this,'multisite_switch') );
 
 		// capture an uninstall event
 		// (WPX must be running to uninstall itself properly)
 		$uninstall_state = get_option('wpx_admin_options');
 		$confirm = isset($uninstall_state['wpx_uninstall']) ? $uninstall_state['wpx_uninstall'] : false;
 		if ($confirm == 'uninstall') add_action( 'admin_init', array($this,'uninstall') );
+	}
+
+	/**
+	 * Multisite Scenario #1
+	 *
+	 * This is probably crazy, but if we're dealing with multisite
+	 * and we want our settings in WPX to work across all blogs
+	 * in multisite, we switch between each instance of WPX
+	 * in each blog, and then instantiate all the WPX content
+	 * 
+	 * @since 1.0
+	*/
+	public function multisite_switch() {
+
+		// if this instance of WPX is splintered, then we need to skip this instance's CMS content
+		$wpx_options = get_option('wpx_admin_options');
+		$is_splintered = isset($wpx_options['splinter_multisite']) ? $wpx_options['splinter_multisite'] : false;
+
+		if (is_multisite() && !$is_splintered) {
+			$all_sites = wp_get_sites();
+			foreach($all_sites as $site) {
+				switch_to_blog($site['blog_id']);
+
+
+				// we also need to exclude including (on unsplintered WPX instances) the CMS content
+				// from splintered instances
+				$wpx_options = get_option('wpx_admin_options');
+				$is_splintered = isset($wpx_options['splinter_multisite']) ? $wpx_options['splinter_multisite'] : false;
+
+				if (!$is_splintered) {
+					$this->register_custom_cpts();
+					$this->register_custom_options_pages();
+					$this->register_custom_taxonomies();
+				}
+				
+				restore_current_blog();
+			}
+		} else {
+			$this->register_custom_cpts();
+			$this->register_custom_options_pages();
+			$this->register_custom_taxonomies();
+		}
+
 	}
 
 	/**
@@ -119,14 +164,23 @@ class wpx_core {
 		$options = get_site_transient('wpx_options');
 		$wpx_transient_array[] = 'wpx_options';
 
-		// in the case of multisite, don't cache options pages
-		if (!$options || is_multisite()) {
+		// if WPX is splintered, then we need to burst the transients
+		// whenever we switch between blogs
+		$wpx_options = get_option('wpx_admin_options');
+		$is_splintered = isset($wpx_options['splinter_multisite']) ? $wpx_options['splinter_multisite'] : false;
+
+		if (!$options || $is_splintered) {
 			$options = get_posts(array('posts_per_page'=>-1, 'post_type'=>'wpx_options', 'orderby'=>'menu_order'));
 			set_site_transient('wpx_options', $options, YEAR_IN_SECONDS);
 		}
 
 		// loop through the wpx options cpts
 		foreach($options as $options_page) {
+
+			// prevent re-registering
+			global $wpx_runs;			
+			if (in_array('options_'.$options_page->ID, $wpx_runs)) continue;
+			$wpx_runs[] = 'options_'.$options_page->ID;
 
 			// "attributes" are custom fields of the wpx options cpts
 			$attributes = get_site_transient('wpx_options_attributes_'.$options_page->ID);
@@ -302,15 +356,24 @@ class wpx_core {
 		$taxonomies = get_site_transient('wpx_taxonomies');
 		$wpx_transient_array[] = 'wpx_taxonomies';
 
-		// don't register taxonomies if multisite
-		if (!$taxonomies || is_multisite()) {
+		// if WPX is splintered, then we need to burst the transients
+		// whenever we switch between blogs
+		$wpx_options = get_option('wpx_admin_options');
+		$is_wpx_splintered = isset($wpx_options['splinter_multisite']) ? $wpx_options['splinter_multisite'] : false;
+
+		if (!$taxonomies || $is_wpx_splintered == true) {
 			$taxonomies = get_posts(array('posts_per_page'=>-1, 'post_type'=>'wpx_taxonomy'));
 			set_site_transient('wpx_taxonomies', $taxonomies, YEAR_IN_SECONDS);
 		}
 
 		// loop through each taxonomy and register it
 		foreach($taxonomies as $taxonomy) {
-			
+
+			// prevent re-registering
+			global $wpx_runs;			
+			if (in_array('taxonomy_'.$taxonomy->ID, $wpx_runs)) continue;
+			$wpx_runs[] = 'taxonomy_'.$taxonomy->ID;
+
 			// get the custom fields of this taxonomy
 			$attributes = get_site_transient('wpx_taxonomies_attributes_'.$taxonomy->ID);
 			$wpx_transient_array[] = 'wpx_taxonomies_attributes_'.$taxonomy->ID;
@@ -531,16 +594,27 @@ class wpx_core {
 		// get all the wpx custom post types as transients
 		global $wpx_transient_array;
 		$post_types = get_site_transient('wpx_cpts');
+		$post_types = false;
 		$wpx_transient_array[] = 'wpx_cpts';
 
-		// in the case of multisite, we can't cache the cpts
-		if (!$post_types || is_multisite()) {
+		// if WPX is splintered, then we need to burst the transients
+		// whenever we switch between blogs
+		$wpx_options = get_option('wpx_admin_options');
+		$is_splintered = isset($wpx_options['splinter_multisite']) ? $wpx_options['splinter_multisite'] : false;
+
+		if (!$post_types || $is_splintered == true) {
+
 			$post_types = get_posts(array('posts_per_page'=>-1, 'post_type'=>'wpx_types'));
 			set_site_transient('wpx_cpts', $post_types, YEAR_IN_SECONDS);
 		}
 
 		// for each wpx cpt
 		foreach($post_types as $post_type) {
+
+			// prevent re-registering
+			global $wpx_runs;			
+			if (in_array('cpt_'.$post_type->ID, $wpx_runs)) continue;
+			$wpx_runs[] = 'cpt_'.$post_type->ID;
 
 			// get all the custom fields attached
 			$attributes = get_site_transient('wpx_cpts_attributes_'.$post_type->ID);

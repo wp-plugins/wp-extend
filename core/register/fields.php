@@ -104,7 +104,7 @@ class wpx_register_field {
 				'value' => $this->meta,
 				'array_key' => $this->array_key,
 				'post_object' => $post,
-				'term_object' => $term,
+				'term_object' => isset($term) ? $term : false,
 				'markup' => $this->markup($this->type),
 				'state' => $this->state
 			);
@@ -311,6 +311,9 @@ class wpx_register_field {
 	public function image() {
 
 		global $post;
+		if ($post) $unique_id = $post->ID;
+		if (!$post) $unique_id = $this->object->term_id;
+
 		$markup = $this->markup('image');
 		?>
 
@@ -328,7 +331,7 @@ class wpx_register_field {
 				
 		<?php if ($this->meta) { ?><div class="wpx-has-image"><?php } ?>
 					
-		<input data-source="<?php echo $post->ID; ?>" class="wpx-media input file" type="text" name="<?php echo $this->meta_key; ?>" value="<?php echo htmlspecialchars($this->meta); ?>" />
+		<input data-source="<?php echo $unique_id; ?>" class="wpx-media input file" type="text" name="<?php echo $this->meta_key; ?>" value="<?php echo htmlspecialchars($this->meta); ?>" />
 		
 		<?php if ($this->meta) { ?>
 		<p class="wpx-field-controls">
@@ -525,15 +528,17 @@ class wpx_register_field {
 		}
 
 		// get the relevant field
-		$multiple = get_post_meta($field_key->ID, '_wpx_fields_post_multiple', true);
+		if ($field_key) $multiple = get_post_meta($field_key->ID, '_wpx_fields_post_multiple', true);
 		
 		// relationship type
-		$relationship = get_post_meta($field_key->ID, '_wpx_fields_post_objects', true);
-		$relationship_array = explode(',',$relationship);
-		sort($relationship_array);
+		if ($field_key) {
+			$relationship = get_post_meta($field_key->ID, '_wpx_fields_post_objects', true);
+			$relationship_array = explode(',',$relationship);
+			sort($relationship_array);
+		}
 		
 		// if multiple, let's allow them to choose multiple posts
-		if ($multiple) {
+		if (isset($multiple)) {
 		?>
 		<div class="wpx-dropdown-selector">
 			<select class="input select">

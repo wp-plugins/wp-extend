@@ -113,7 +113,7 @@ class wpx {
 	 *
 	 * @since 1.0
 	*/
-	public function change_login_logo_url($url) {
+	public static function change_login_logo_url($url) {
 		return get_bloginfo('url');
 	}
 

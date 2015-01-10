@@ -31,6 +31,11 @@ class wpx_admin {
 			add_action('login_head',  array('wpx','extend_login_styles'));
 		}
 
+		// run different instances of WPX in different blogs when using multisite
+		if (wpx::get_option_meta('wpx_admin_options', 'multisite_splinter')) {
+			add_action( 'admin_head', array('wpx','splinter_multisite') );
+		}
+
 		// make it possible to style the dashboard
 		if (wpx::get_option_meta('wpx_admin_options', 'styles_dashboard')) {
 			add_action( 'admin_head', array('wpx','extend_dashboard_styles') );
@@ -101,6 +106,23 @@ class wpx_admin {
 			<input name="wpx_admin_options[right_now_widget_extended]" type="checkbox" value="1" <?php checked( '1' ==  wpx::get_option_meta('wpx_admin_options', 'right_now_widget_extended'), true); ?>>
 			Add custom post types and taxonomies to the Right Now widget?</label>
 			<p class="description">(If you check this option, WordPress will add all custom post types and taxonomies to the Dashboard's Right Now widget.)</p>
+		</fieldset>
+		<?php
+	}
+
+	/**
+	 * Splinter WPX Instances in Multisite
+	 *
+	 * @since 1.0
+	*/
+	public function splinter_wpx_in_multisite() {
+		?>
+		<fieldset>
+			<legend class="screen-reader-text"><span>Multisite Settings</span></legend>
+			<label for="styles_login">
+			<input name="wpx_admin_options[splinter_multisite]" type="checkbox" value="1" <?php checked( '1' ==  wpx::get_option_meta('wpx_admin_options', 'splinter_multisite'), true); ?>>
+			Splinter this instance of WPX from the Network?</label>
+			<p class="description">(If you check this option, the instance of WPX activated in this blog will localize its CMS content to this blog and only this blog. If this option is NOT checked, on any blog that you have the WPX plugin activated (including this one), ALL CMS content from ALL active instances of the plugin will be available in ALL blogs.)</p>
 		</fieldset>
 		<?php
 	}
@@ -370,6 +392,22 @@ class wpx_admin {
 			array($this,'right_now_widget_extended'), 
 			'wpx_admin_page', 
 			'misc'
+		);
+
+		// miscellaneous settings
+		add_settings_section( 
+			'multisite', 
+			'Multisite Settings', 
+			null, 
+			'wpx_admin_page' 
+		);
+
+		add_settings_field( 
+			'multisite_splinter', 
+			'Splinter WPX Instances?', 
+			array($this,'splinter_wpx_in_multisite'), 
+			'wpx_admin_page', 
+			'multisite'
 		);
 
         // wpx uninstall

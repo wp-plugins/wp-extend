@@ -1,6 +1,6 @@
 ## WordPress Extend
 
-WP Extend (WPX) is a framework that makes it easier to use WordPress as a CMS. It tries to bridge the gap between WordPress' native ability to make custom post types, taxonomies, options pages, and metaboxes and the Dashboard, by providing a GUI interface for developers to work with outside of templates. It also provides a library of commonly used functions geared toward CMS architecture. 
+WP Extend (WPX) is a framework that makes it easier to use WordPress as a CMS. It tries to bridge the gap between WordPress' native ability to make custom post types, taxonomies, options pages, and metaboxes and the Dashboard, by providing a GUI interface for developers to work with outside of templates. It also provides a library of commonly used functions geared toward CMS architecture.
 
 ### What can you do with WPX?
 
@@ -43,6 +43,8 @@ WP Extend (WPX) is a framework that makes it easier to use WordPress as a CMS. I
 WPX needs your help. Please contribute, refactor, and add new features.
 
 [https://github.com/alkah3st/wpx](http://)
+
+**WPX is currently an alpha release and not recommended for production environments. I have used WPX in production environments without issues, but there are potential performance concerns with high traffic websites. Use WPX in your production environment at your own risk.** 
 
 ### Installation
 

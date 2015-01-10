@@ -215,16 +215,18 @@ class wpx_register_type {
 			// in which metaboxes are appended, as calling them in a specific order doesn't
 			// matter, so we are appending an order to the beginning of their IDs
 			// which in turn forces them to appear in an explicit order
-			foreach ($metaboxes as $i => $metabox) {
-				$metabox_order = isset($metabox[0]['order']) ? $metabox[0]['order'] : false;
-				$order = $metabox_order;
-				if (!$order) { $order = 0; }
-				$resorted[$i]  = $order; 
-			}
-			// then we sort this "ordering" array by the order field
-			array_multisort($resorted, SORT_DESC, $metaboxes);
-			foreach ( $resorted as $i => $meta_box_content ) {
-				add_meta_box( $post_type.'_'.str_replace('-','',sanitize_key($i)), $i,  array($this,'render_meta'), $post_type, 'normal', 'high', $metaboxes[$i][0]);
+			if ($metaboxes) {
+				foreach ($metaboxes as $i => $metabox) {
+					$metabox_order = isset($metabox[0]['order']) ? $metabox[0]['order'] : false;
+					$order = $metabox_order;
+					if (!$order) { $order = 0; }
+					$resorted[$i]  = $order; 
+				}
+				// then we sort this "ordering" array by the order field
+				array_multisort($resorted, SORT_DESC, $metaboxes);
+				foreach ( $resorted as $i => $meta_box_content ) {
+					add_meta_box( $post_type.'_'.str_replace('-','',sanitize_key($i)), $i,  array($this,'render_meta'), $post_type, 'normal', 'high', $metaboxes[$i][0]);
+				}
 			}
 		}
 		// at this point, if we need to, we can hide/display groups of metaboxes

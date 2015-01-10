@@ -4,7 +4,7 @@ Donate link: http://dquinn.net
 Tags: plugin, admin, posts, custom post type, custom taxonomy, custom
 Requires at least: 3.6.1
 Tested up to: 4.0
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,6 +49,8 @@ Last but not least...
 WPX needs your help. Please contribute, refactor, and add new features.
 
 https://github.com/alkah3st/wpx
+
+WPX is currently an alpha release and not recommended for production environments. I have used WPX in production environments without issues, but there are potential performance concerns with high traffic websites. Use WPX in your production environment at your own risk.
 
 == Installation ==
 
